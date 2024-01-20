@@ -5,7 +5,8 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 
 
-posts= [
+
+data_list = [
     {
         'id': 1,
         'title': 'First Entry',
@@ -38,5 +39,5 @@ def homepage(request:Request):
 
 
 @api_view(http_method_names=['GET'])
-def list_Posts(request:Request):
-    Response(data=posts, status=status.HTTP_200_OK)
+def list_Posts(request:Request): 
+  return  Response(data=data_list, status=status.HTTP_200_OK)
