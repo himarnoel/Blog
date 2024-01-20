@@ -21,11 +21,20 @@ def homepage(request:Request):
 
 
 
-@api_view(http_method_names=['GET'])
+@api_view(http_method_names=['GET', 'POST'])
 def list_Posts(request:Request): 
   posts=Post.objects.all()
+  if request.method=='POST':
+     data=request.data
+     serializer=PostSerializers(data=data)
+     if serializer.is_valid():
+        serializer.save()
+        response={"message":"Posts created", "data":serializer.data}
+        return Response(data=response, status=status.HTTP_201_CREATED)
+     return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
   serializer=PostSerializers(instance=posts, many=True)
-  return  Response(data=serializer.data, status=status.HTTP_200_OK)
+  response={"message":"posts", "data":serializer.data}
+  return  Response(data=response, status=status.HTTP_200_OK)
 
 
 
