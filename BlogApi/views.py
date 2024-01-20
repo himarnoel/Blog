@@ -41,3 +41,14 @@ def homepage(request:Request):
 @api_view(http_method_names=['GET'])
 def list_Posts(request:Request): 
   return  Response(data=data_list, status=status.HTTP_200_OK)
+
+
+
+
+@api_view(http_method_names=['GET'])
+def post_detail(request:Request, post_index:int): 
+  post= data_list[post_index]
+  if post:
+     return  Response(data=data_list, status=status.HTTP_200_OK)
+  
+  return  Response(data={"error":"The data not found"}, status=status.HTTP_404_NOT_FOUND)
