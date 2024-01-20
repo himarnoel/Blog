@@ -3,27 +3,10 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
+from .models import Post
+from .Serializers import PostSerializers
 
 
-
-data_list = [
-    {
-        'id': 1,
-        'title': 'First Entry',
-        'contents': 'This is the contents of the first entry.'
-    },
-    {
-        'id': 2,
-        'title': 'Second Entry',
-        'contents': 'This is the contents of the second entry.'
-    },
-    {
-        'id': 3,
-        'title': 'Third Entry',
-        'contents': 'This is the contents of the third entry.'
-    },
-    # Add more entries as needed
-]
 
 # Create your views here.
 @api_view(http_method_names=['GET', 'POST'])
@@ -40,7 +23,9 @@ def homepage(request:Request):
 
 @api_view(http_method_names=['GET'])
 def list_Posts(request:Request): 
-  return  Response(data=data_list, status=status.HTTP_200_OK)
+  posts=Post.objects.all()
+  serializer=PostSerializers(instance=posts, many=True)
+  return  Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
 
