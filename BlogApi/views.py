@@ -47,8 +47,9 @@ def list_Posts(request:Request):
 
 @api_view(http_method_names=['GET'])
 def post_detail(request:Request, post_index:int): 
-  post= data_list[post_index]
+
+  post = data_list[post_index-1]
   if post:
-     return  Response(data=data_list, status=status.HTTP_200_OK)
+     return  Response(data=post, status=status.HTTP_200_OK)
   
   return  Response(data={"error":"The data not found"}, status=status.HTTP_404_NOT_FOUND)
