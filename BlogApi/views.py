@@ -125,6 +125,19 @@ class PostlistCreateView(generics.GenericAPIView,
     def post (self, request:Request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
     
+
+class PostRetrieveUpdateDeleteView(generics.GenericAPIView,
+                                    mixins.RetrieveModelMixin, 
+                                     mixins.UpdateModelMixin,
+                                     mixins.DestroyModelMixin
+                                      ):
+    serializer_class=PostSerializers
+    queryset=Post.objects.all()
+    def get (self, request:Request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
     
-class PostRetrieveUpdateDeleteView(APIView):
-    pass
+    def put (self, request:Request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+    
+    def delete (self, request:Request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
