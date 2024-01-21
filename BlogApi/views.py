@@ -110,5 +110,7 @@ class PostRetrieveUpdateDeleteView(APIView):
     
 
     def delete(self, request:Request, post_id:int):
-        pass
+        post = get_object_or_404(Post, pk=post_id)
+        post.delete()
+        return Response(data={"messaage":"Deleted"}, status=status.HTTP_204_NO_CONTENT)
   
