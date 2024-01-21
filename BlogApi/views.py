@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.decorators import api_view,APIView
-from rest_framework import status
+from rest_framework import status, generics, mixins
 from .models import Post
 from .Serializers import PostSerializers
 from django.shortcuts import get_object_or_404
@@ -38,21 +38,21 @@ def homepage(request:Request):
 #   return  Response(data=response, status=status.HTTP_200_OK)
 
 
-class PostlistCreateView(APIView):
-    """GET AND  CREATE POSTS"""
-    serializers_class=PostSerializers
-    def get(self, request:Request, *args, **kwargs):
-        posts=Post.objects.all()
-        serializers=self.serializers_class(instance=posts, many=True)
-        return Response(data=serializers.data, status=status.HTTP_200_OK)
+# class PostlistCreateView(APIView):
+#     """GET AND  CREATE POSTS"""
+#     serializers_class=PostSerializers
+#     def get(self, request:Request, *args, **kwargs):
+#         posts=Post.objects.all()
+#         serializers=self.serializers_class(instance=posts, many=True)
+#         return Response(data=serializers.data, status=status.HTTP_200_OK)
     
-    def post(self, request:Request, *args, **kwargs):
-        data=request.data
-        serializers=self.serializers_class(data=data)
-        if serializers.is_valid():
-            serializers.save()
-            response={"message":"Post created successfully", "data":serializers.data}
-            return Response(data=response, status=status.HTTP_200_OK)
+#     def post(self, request:Request, *args, **kwargs):
+#         data=request.data
+#         serializers=self.serializers_class(data=data)
+#         if serializers.is_valid():
+#             serializers.save()
+#             response={"message":"Post created successfully", "data":serializers.data}
+#             return Response(data=response, status=status.HTTP_200_OK)
 
 
 
@@ -85,32 +85,46 @@ class PostlistCreateView(APIView):
 #     return Response(data={"messaage":"Deleted"}, status=status.HTTP_204_NO_CONTENT)
 
 
-class PostRetrieveUpdateDeleteView(APIView):
-    serializers_class=PostSerializers
+# class PostRetrieveUpdateDeleteView(APIView):
+#     serializers_class=PostSerializers
 
-    def get(self, request:Request, post_id:int):
-        post=get_object_or_404(Post, pk=post_id)
-        serializer=self.serializers_class(instance=post)
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+#     def get(self, request:Request, post_id:int):
+#         post=get_object_or_404(Post, pk=post_id)
+#         serializer=self.serializers_class(instance=post)
+#         return Response(data=serializer.data, status=status.HTTP_200_OK)
    
 
-    def put(self, request:Request, post_id:int):
-        post=get_object_or_404(Post, pk=post_id)
-        data=request.data
-        serializer=self.serializers_class(instance=post, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            response={
-       "message":"Post updated successfully",
-       "data":serializer.data}
-            return Response(data=response, status=status.HTTP_200_OK)
+#     def put(self, request:Request, post_id:int):
+#         post=get_object_or_404(Post, pk=post_id)
+#         data=request.data
+#         serializer=self.serializers_class(instance=post, data=data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             response={
+#        "message":"Post updated successfully",
+#        "data":serializer.data}
+#             return Response(data=response, status=status.HTTP_200_OK)
         
-        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     
 
-    def delete(self, request:Request, post_id:int):
-        post = get_object_or_404(Post, pk=post_id)
-        post.delete()
-        return Response(data={"messaage":"Deleted"}, status=status.HTTP_204_NO_CONTENT)
+#     def delete(self, request:Request, post_id:int):
+#         post = get_object_or_404(Post, pk=post_id)
+#         post.delete()
+#         return Response(data={"messaage":"Deleted"}, status=status.HTTP_204_NO_CONTENT)
   
+
+class PostlistCreateView(generics.GenericAPIView,
+                          mixins.ListModelMixin, mixins.CreateModelMixin):
+    serializer_class=PostSerializers
+    queryset=Post.objects.all()
+    def get (self, request:Request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+    
+    def post (self, request:Request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+    
+    
+class PostRetrieveUpdateDeleteView(APIView):
+    pass
