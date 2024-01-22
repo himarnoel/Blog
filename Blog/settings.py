@@ -54,6 +54,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Blog.urls'
+REST_FRAMEWORK = {
+    "NON_FIELD_ERRORS_KEY": "errors",}
 
 TEMPLATES = [
     {

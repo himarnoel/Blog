@@ -17,4 +17,4 @@ class SignupView(generics.GenericAPIView):
                 "message":"User created successfully"
             }
             return Response(data=response, status=status.HTTP_200_OK)
-        return Response(data=response, status=status.HTTP_400_BAD_REQUEST)
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)

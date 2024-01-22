@@ -8,6 +8,8 @@ urlpatterns = [
     # path("<int:post_id>/", views.PostRetrieveUpdateDeleteView.as_view(), name="post_retreiveupdatedelete"),
 #   For generics
 path("<int:pk>/", views.PostRetrieveUpdateDeleteView.as_view(), name="post_retreiveupdatedelete"),
+
+
 ]
 
 
