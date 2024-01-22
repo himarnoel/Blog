@@ -3,7 +3,7 @@ from .serializers import SignupSerializer
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.request import Request
-
+from  rest_framework.views import APIView
 # Create your views here.
 class SignupView(generics.GenericAPIView):
     serializer_class=SignupSerializer
@@ -18,3 +18,18 @@ class SignupView(generics.GenericAPIView):
           "data": serializer.data}
             return Response(data=response, status=status.HTTP_200_OK)
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class LoginView(APIView):
+    permission_classes = []
+
+    def post(self, request: Request):
+        email = request.data.get("email")
+        password = request.data.get("password")
+    
+
+    def get(self, request: Request):
+        content = {"user": str(request.user), "auth": str(request.auth)}
+
+        return Response(data=content, status=status.HTTP_200_OK)
