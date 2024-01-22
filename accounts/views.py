@@ -14,7 +14,7 @@ class SignupView(generics.GenericAPIView):
         if serializer.is_valid():
             serializer.save()
             response={
-                "message":"User created successfully"
-            }
+                "message":"User created successfully",
+          "data": serializer.data}
             return Response(data=response, status=status.HTTP_200_OK)
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
