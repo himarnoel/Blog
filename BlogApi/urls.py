@@ -7,7 +7,7 @@ urlpatterns = [
     path("", views.PostlistCreateView.as_view(), name="list_Post"),
     # path("<int:post_id>/", views.PostRetrieveUpdateDeleteView.as_view(), name="post_retreiveupdatedelete"),
 #   For generics
-path("<int:pk>/", views.PostRetrieveUpdateDeleteView.as_view(), name="post_retreiveupdatedelete"),
+   path("<int:pk>/", views.PostRetrieveUpdateDeleteView.as_view(), name="post_retreiveupdatedelete"),
 
 
 ]

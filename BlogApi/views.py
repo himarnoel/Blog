@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework.request import Request
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import api_view,APIView
 from rest_framework import status, generics, mixins
@@ -118,6 +119,7 @@ def homepage(request:Request):
 class PostlistCreateView(generics.GenericAPIView,
                           mixins.ListModelMixin, mixins.CreateModelMixin):
     serializer_class=PostSerializers
+    permission_classes=[IsAuthenticated]
     queryset=Post.objects.all()
     def get (self, request:Request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -131,6 +133,7 @@ class PostRetrieveUpdateDeleteView(generics.GenericAPIView,
                                      mixins.UpdateModelMixin,
                                      mixins.DestroyModelMixin
                                       ):
+    
     serializer_class=PostSerializers
     queryset=Post.objects.all()
     def get (self, request:Request, *args, **kwargs):
