@@ -6,7 +6,7 @@ from rest_framework.request import Request
 from  rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth import get_user_model
+
 from .tokencreator import create_jwt_pair_for_user
 # Create your views here.
 class SignupView(generics.GenericAPIView):
