@@ -5,6 +5,9 @@ from rest_framework.response import Response
 from rest_framework.request import Request
 from  rest_framework.views import APIView
 from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import get_user_model
+# from tokencreator import create_jwt_pair_for_user
 # Create your views here.
 class SignupView(generics.GenericAPIView):
     serializer_class=SignupSerializer
@@ -29,9 +32,13 @@ class LoginView(APIView):
         email = request.data.get("email")
         password = request.data.get("password")
         user = authenticate(email=email, password=password)
-
+    
         if user is not None:
-            response = {"message": "Login Successfull", "token":""}
+       
+            refresh=RefreshToken.for_user(user)
+            tokens={"access":str(refresh.access_token),"refresh":str(refresh)}
+            response = {"message": "Login Successfull", "token":tokens
+            }
             return Response(data=response, status=status.HTTP_200_OK)
         
         else:
