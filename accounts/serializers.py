@@ -26,3 +26,10 @@ class SignupSerializer():
 
         user.save()
         return user
+        
+# class PostSerializer(serializers.ModelSerializer):
+#     title = serializers.StringRelatedField(many=True)
+
+#     class Meta:
+#         model = User
+#         fields = ["id", "username","email"]

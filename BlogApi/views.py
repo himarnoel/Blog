@@ -121,6 +121,11 @@ class PostlistCreateView(generics.GenericAPIView,
     serializer_class=PostSerializers
     permission_classes=[IsAuthenticated]
     queryset=Post.objects.all()
+    # def perform_create(self, serializer):
+    #     user = self.request.user
+    #     serializer.save(author=user)
+    #     return super().perform_create(serializer)
+
     def get (self, request:Request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
     
